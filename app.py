@@ -8,75 +8,59 @@ st.set_page_config(page_title="ยอดขายร้านสหกรณ์"
 
 if not st.session_state.get("judge_logged_in", False):
     st.markdown("""
-   <style>
-  [data-testid="stAppViewContainer"]:has(.st-key-judge_card) {
-    background: #f3f7f6;
-  }
-
-  .stApp:has(.st-key-judge_card) [data-testid="stHeader"] {
-    background: transparent;
-  }
-
-  .st-key-judge_card {
-    width: 100%;
-    max-width: 460px;
-    box-sizing: border-box;
-    margin: clamp(16px, 6vh, 64px) auto 0;
-    padding: clamp(18px, 4vw, 32px);
-    background: #ffffff;
-    border: 1px solid #dce8e4;
-    border-radius: 18px;
-    box-shadow: 0 12px 32px rgba(16, 48, 40, 0.08);
-  }
-
-  .st-key-judge_card :is(h1, h2, h3, h4) {
-    color: #123c34 !important;
-  }
-
-  .st-key-judge_card [data-testid="stCaptionContainer"] p {
-    color: #52665f !important;
-  }
-
-  .st-key-judge_card :is(label, label p) {
-    color: #243e38 !important;
-  }
-
-  .st-key-judge_card [data-baseweb="input"],
-  .st-key-judge_card [data-baseweb="input"] > div {
-    background: #f7faf9 !important;
-    border-color: #c8dad4 !important;
-    border-radius: 10px;
-  }
-
-  .st-key-judge_card [data-baseweb="input"]:focus-within {
-    outline: 2px solid #13786b;
-    outline-offset: 2px;
-  }
-
-  .st-key-judge_card input {
-    background: #f7faf9 !important;
-    color: #173e3a !important;
-    -webkit-text-fill-color: #173e3a !important;
-    caret-color: #173e3a;
-  }
-
-  .st-key-judge_card [data-baseweb="input"] button {
-    background: #f7faf9 !important;
-    color: #42645b !important;
-  }
-
-  .st-key-judge_card [data-testid="stFormSubmitButton"] button {
-    min-height: 44px;
-    background: #08665b !important;
-    color: #ffffff !important;
-    border: 0;
-    border-radius: 10px;
-  }
-
-  .st-key-judge_card [data-testid="stFormSubmitButton"] button:hover {
-    background: #064d45 !important;
-  }
-</style>
+    <style>
+      [data-testid="stAppViewContainer"]:has(.st-key-judge_card) {
+        background: #f3f7f6;
+      }
+      .stApp:has(.st-key-judge_card) [data-testid="stHeader"] {
+        background: transparent;
+      }
+      .st-key-judge_card {
+        width: 100%;
+        max-width: 460px;
+        box-sizing: border-box;
+        margin: clamp(16px, 6vh, 64px) auto 0;
+        padding: clamp(18px, 4vw, 32px);
+        background: #fff;
+        border: 1px solid #dce8e4;
+        border-radius: 18px;
+        box-shadow: 0 12px 32px rgba(16, 48, 40, 0.08);
+      }
+      .st-key-judge_card :is(h1, h2, h3, h4) {
+        color: #123c34 !important;
+      }
+      .st-key-judge_card [data-testid="stCaptionContainer"] p,
+      .st-key-judge_card label,
+      .st-key-judge_card label p {
+        color: #243e38 !important;
+      }
+      .st-key-judge_card [data-baseweb="input"],
+      .st-key-judge_card [data-baseweb="input"] > div,
+      .st-key-judge_card [data-baseweb="input"] button,
+      .st-key-judge_card input {
+        background: #f7faf9 !important;
+        color: #173e3a !important;
+        border-color: #c8dad4 !important;
+      }
+      .st-key-judge_card [data-baseweb="input"]:focus-within {
+        outline: 2px solid #13786b;
+        outline-offset: 2px;
+      }
+      .st-key-judge_card input {
+        -webkit-text-fill-color: #173e3a !important;
+        caret-color: #173e3a;
+      }
+      .st-key-judge_card [data-testid="stFormSubmitButton"] button {
+        min-height: 44px;
+        color: #fff !important;
+        background: #08665b !important;
+        border: 0;
+        border-radius: 10px;
+      }
+      .st-key-judge_card [data-testid="stFormSubmitButton"] button:hover {
+        background: #064d45 !important;
+      }
+    </style>
     """, unsafe_allow_html=True)
 
     with st.container(key="judge_card", border=True):
@@ -109,30 +93,80 @@ if not st.session_state.get("judge_logged_in", False):
 
     st.stop()
 
-# ส่วนนี้ทำงานหลังล็อกอินผ่าน
-if st.button("ออกจากระบบ"):
-    st.session_state["judge_logged_in"] = False
-    st.rerun()
+# จัดหน้าเต็มหน้าต่างหลังล็อกอิน
+st.markdown("""
+<style>
+  .stApp:has(.st-key-sales_view) {
+    --sales-nav-height: 72px;
+  }
+  [data-testid="stAppViewContainer"]:has(.st-key-sales_view),
+  [data-testid="stMain"]:has(.st-key-sales_view) {
+    overflow: hidden !important;
+  }
+  .stApp:has(.st-key-sales_view) [data-testid="stHeader"] {
+    display: none;
+  }
+  .st-key-sales_nav {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 100;
+    height: var(--sales-nav-height, 72px);
+    box-sizing: border-box;
+    padding: 12px clamp(12px, 3vw, 32px);
+    background: var(--background-color, #fff);
+    border-bottom: 1px solid #dce8e4;
+  }
+  .st-key-sales_nav [data-testid="stHorizontalBlock"] {
+    flex-wrap: nowrap !important;
+    gap: 8px;
+  }
+  .st-key-sales_nav [data-testid="stColumn"] {
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    width: auto !important;
+  }
+  .st-key-sales_nav [data-testid="stColumn"]:last-child {
+    flex: 0 0 auto !important;
+  }
+  .st-key-sales_view iframe {
+    position: fixed;
+    inset: var(--sales-nav-height, 72px) 0 auto;
+    width: 100% !important;
+    height: calc(100vh - var(--sales-nav-height, 72px)) !important;
+    height: calc(100dvh - var(--sales-nav-height, 72px)) !important;
+    border: 0;
+  }
+</style>
+""", unsafe_allow_html=True)
 
 pages = {
     "แดชบอร์ดยอดขาย": "index.html",
     "ตารางผลวิเคราะห์": "sales-results-thai.html",
 }
-selected = st.radio("เลือกหน้าที่ต้องการดู", list(pages), horizontal=True)
-page_path = Path(__file__).with_name(pages[selected])
 
+with st.container(key="sales_nav"):
+    menu, actions = st.columns([4, 1], vertical_alignment="center")
+    with menu:
+        selected = st.selectbox(
+            "เลือกหน้า", list(pages), label_visibility="collapsed"
+        )
+    with actions:
+        if st.button("ออกจากระบบ"):
+            st.session_state["judge_logged_in"] = False
+            st.rerun()
+
+page_path = Path(__file__).with_name(pages[selected])
 if not page_path.is_file():
     st.error(f"หาไฟล์ {page_path.name} ไม่เจอ ให้เช็กว่าอยู่ข้าง app.py ใน GitHub")
     st.stop()
 
 content = page_path.read_text(encoding="utf-8")
-
 if selected == "แดชบอร์ดยอดขาย":
-    # ใช้เมนูด้านบนของ Streamlit เพื่อสลับไปหน้าตาราง
     content = content.replace(
         '<a class="report-button" href="sales-results-thai.html">เปิดตารางผลวิเคราะห์</a>',
         "",
         1,
     )
 
-html(content, height=850, scrolling=True)
+with st.container(key="sales_view"):
+    html(content, height=850, scrolling=True)
