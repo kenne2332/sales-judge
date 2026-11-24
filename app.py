@@ -141,7 +141,7 @@ st.markdown("""
 
 pages = {
     "แดชบอร์ดยอดขาย": "index.html",
-    "ตารางผลวิเคราะห์": "sales-results-thai.html",
+    "ตารางผลวิเคราะห์": "sales-results-thai (2).html",
 }
 
 with st.container(key="sales_nav"):
