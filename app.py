@@ -7,43 +7,48 @@ from streamlit.components.v1 import html
 st.set_page_config(page_title="ยอดขายร้านสหกรณ์", layout="wide")
 
 if not st.session_state.get("judge_logged_in"):
-    st.title("เข้าสู่ระบบสำหรับกรรมการ")
+    st.markdown("""
+    <style>
+      .st-key-judge_card {
+        max-width: 460px;
+        margin: 36px auto 0;
+        padding: 24px;
+        background: #f1f8f5;
+        border-radius: 18px;
+      }
+      .st-key-judge_card h2 { color: #075c56; }
+      .st-key-judge_card button[kind="primaryFormSubmit"] {
+        background: #075c56;
+        border-color: #075c56;
+        color: white;
+      }
+    </style>
+    """, unsafe_allow_html=True)
 
-    with st.form("judge_login"):
-        username = st.text_input("ชื่อผู้ใช้")
-        password = st.text_input("รหัสผ่าน", type="password")
-        submitted = st.form_submit_button("เข้าสู่ระบบ")
+    with st.container(key="judge_card", border=True):
+        st.subheader("แดชบอร์ดยอดขายร้านสหกรณ์")
+        st.caption("เข้าสู่ระบบสำหรับกรรมการ")
 
-    if submitted:
-        account = st.secrets["judge"]
-        username_ok = compare_digest(username.encode(), account["username"].encode())
-        password_ok = compare_digest(password.encode(), account["password"].encode())
+        with st.form("judge_login", border=False):
+            username = st.text_input("ชื่อผู้ใช้")
+            password = st.text_input("รหัสผ่าน", type="password")
+            submitted = st.form_submit_button(
+                "เข้าสู่ระบบ", type="primary", use_container_width=True
+            )
 
-        if username_ok and password_ok:
-            st.session_state["judge_logged_in"] = True
-            st.rerun()
+        if submitted:
+            account = st.secrets["judge"]
+            username_ok = compare_digest(
+                username.encode(), account["username"].encode()
+            )
+            password_ok = compare_digest(
+                password.encode(), account["password"].encode()
+            )
 
-        st.error("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง")
+            if username_ok and password_ok:
+                st.session_state["judge_logged_in"] = True
+                st.rerun()
+
+            st.error("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง")
 
     st.stop()
-
-if st.button("ออกจากระบบ"):
-    st.session_state["judge_logged_in"] = False
-    st.rerun()
-
-pages = {
-    "แดชบอร์ดยอดขาย": "index.html",
-    "ตารางผลวิเคราะห์": "sales-results-thai.html",
-}
-selected = st.radio("เลือกหน้าที่ต้องการดู", list(pages), horizontal=True)
-content = Path(__file__).with_name(pages[selected]).read_text(encoding="utf-8")
-
-if selected == "แดชบอร์ดยอดขาย":
-    # ใช้เมนู Streamlit ด้านบนเปิดหน้าตาราง
-    content = content.replace(
-        '<a class="report-button" href="sales-results-thai.html">เปิดตารางผลวิเคราะห์</a>',
-        "",
-        1,
-    )
-
-html(content, height=850, scrolling=True)
