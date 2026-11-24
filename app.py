@@ -16,11 +16,20 @@ if not st.session_state.get("judge_logged_in"):
         background: #f1f8f5;
         border-radius: 18px;
       }
-      .st-key-judge_card h2 { color: #075c56; }
-      .st-key-judge_card button[kind="primaryFormSubmit"] {
-        background: #075c56;
-        border-color: #075c56;
-        color: white;
+     .st-key-judge_card :is(h1, h2, h3, h4) {
+  color: #075c56 !important;
+}
+
+.st-key-judge_card [data-testid="stCaptionContainer"] p,
+.st-key-judge_card label,
+.st-key-judge_card label p {
+  color: #243e38 !important;
+}
+
+.st-key-judge_card input {
+  color: #ffffff;
+  caret-color: #ffffff;
+}
       }
     </style>
     """, unsafe_allow_html=True)
