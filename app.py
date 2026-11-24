@@ -167,6 +167,23 @@ if selected == "แดชบอร์ดยอดขาย":
         "",
         1,
     )
+if selected == "ตารางผลวิเคราะห์":
+    jump_script = """
+<script>
+document.addEventListener("click", function (event) {
+    const link = event.target.closest('nav a[href^="#"]');
+    if (!link) return;
 
+    event.preventDefault();
+    const id = link.getAttribute("href").slice(1);
+    const heading = document.getElementById(id);
+
+    if (heading) {
+        heading.scrollIntoView({ block: "start" });
+    }
+});
+</script>
+"""
+    content = content.replace("</body>", jump_script + "</body>", 1)
 with st.container(key="sales_view"):
     html(content, height=850, scrolling=True)
