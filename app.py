@@ -35,11 +35,12 @@ if not st.session_state.get("judge_logged_in", False):
         border-radius: 10px;
       }
 
-      .st-key-judge_card input {
-        color: #173e3a !important;
-        caret-color: #173e3a;
-      }
-
+        .st-key-judge_card input {
+          background-color: #2d2a26 !important;
+          color: #ffffff !important;
+          -webkit-text-fill-color: #ffffff !important;
+          caret-color: #ffffff;
+        }
       .st-key-judge_card [data-baseweb="input"] button {
         background: #fff !important;
         color: #075c56 !important;
