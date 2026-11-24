@@ -168,20 +168,53 @@ if selected == "แดชบอร์ดยอดขาย":
         1,
     )
 if selected == "ตารางผลวิเคราะห์":
-    jump_script = """
-<script>
-document.addEventListener("click", function (event) {
-    const link = event.target.closest('nav a[href^="#"]');
-    if (!link) return;
+       jump_script = """
+<style>
+  nav[aria-label="สารบัญผลวิเคราะห์"] {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 10px 0;
+    background: #f3f8f6;
+    border-bottom: 1px solid #cdded9;
+  }
 
-    event.preventDefault();
-    const id = link.getAttribute("href").slice(1);
-    const heading = document.getElementById(id);
+  html {
+    scroll-padding-top: var(--report-nav-offset, 120px);
+  }
 
-    if (heading) {
-        heading.scrollIntoView({ block: "start" });
+  @media (max-width: 650px) {
+    nav[aria-label="สารบัญผลวิเคราะห์"] {
+      flex-wrap: nowrap;
+      overflow-x: auto;
     }
-});
+    nav[aria-label="สารบัญผลวิเคราะห์"] a {
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+  }
+</style>
+<script>
+const reportNav = document.querySelector('nav[aria-label="สารบัญผลวิเคราะห์"]');
+
+if (reportNav) {
+    const updateOffset = () => {
+        const offset = Math.ceil(reportNav.getBoundingClientRect().height) + 16;
+        document.documentElement.style.setProperty("--report-nav-offset", `${offset}px`);
+    };
+
+    updateOffset();
+    new ResizeObserver(updateOffset).observe(reportNav);
+
+    reportNav.addEventListener("click", (event) => {
+        const link = event.target.closest('a[href^="#"]');
+        if (!link) return;
+
+        event.preventDefault();
+        const heading = document.getElementById(link.hash.slice(1));
+        if (heading) heading.scrollIntoView({ block: "start" });
+    });
+}
 </script>
 """
     content = content.replace("</body>", jump_script + "</body>", 1)
