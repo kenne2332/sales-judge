@@ -8,57 +8,75 @@ st.set_page_config(page_title="ยอดขายร้านสหกรณ์"
 
 if not st.session_state.get("judge_logged_in", False):
     st.markdown("""
-    <style>
-      .st-key-judge_card {
-        max-width: 480px;
-        margin: clamp(24px, 8vh, 88px) auto 0;
-        padding: clamp(18px, 4vw, 32px);
-        border: 1px solid #bcdcd1;
-        border-radius: 24px;
-        background:
-          radial-gradient(ellipse at top right, #c6ebe0, transparent 65%),
-          linear-gradient(150deg, #ffffff, #eaf5f0);
-        box-shadow: 0 24px 60px #0004, inset 0 1px 0 #fff;
-      }
+   <style>
+  [data-testid="stAppViewContainer"]:has(.st-key-judge_card) {
+    background: #f3f7f6;
+  }
 
-      .st-key-judge_card h3 { color: #075c56 !important; }
-      .st-key-judge_card [data-testid="stCaptionContainer"] p,
-      .st-key-judge_card label,
-      .st-key-judge_card label p {
-        color: #294d44 !important;
-      }
+  .stApp:has(.st-key-judge_card) [data-testid="stHeader"] {
+    background: transparent;
+  }
 
-      .st-key-judge_card [data-baseweb="input"],
-      .st-key-judge_card [data-baseweb="input"] > div {
-        background: #fff !important;
-        border-color: #91b9ad !important;
-        border-radius: 10px;
-      }
+  .st-key-judge_card {
+    width: 100%;
+    max-width: 460px;
+    box-sizing: border-box;
+    margin: clamp(16px, 6vh, 64px) auto 0;
+    padding: clamp(18px, 4vw, 32px);
+    background: #ffffff;
+    border: 1px solid #dce8e4;
+    border-radius: 18px;
+    box-shadow: 0 12px 32px rgba(16, 48, 40, 0.08);
+  }
 
-        .st-key-judge_card input {
-          background-color: #2d2a26 !important;
-          color: #ffffff !important;
-          -webkit-text-fill-color: #ffffff !important;
-          caret-color: #ffffff;
-        }
-      .st-key-judge_card [data-baseweb="input"] button {
-        background: #fff !important;
-        color: #075c56 !important;
-      }
+  .st-key-judge_card :is(h1, h2, h3, h4) {
+    color: #123c34 !important;
+  }
 
-      .st-key-judge_card [data-testid="stFormSubmitButton"] button {
-        background: linear-gradient(145deg, #087970, #07534e);
-        color: #fff;
-        border: 0;
-        border-radius: 10px;
-        box-shadow: 0 5px 12px #075c5640;
-      }
+  .st-key-judge_card [data-testid="stCaptionContainer"] p {
+    color: #52665f !important;
+  }
 
-      .st-key-judge_card [data-testid="stFormSubmitButton"] button:hover {
-        background: #064742;
-        color: #fff;
-      }
-    </style>
+  .st-key-judge_card :is(label, label p) {
+    color: #243e38 !important;
+  }
+
+  .st-key-judge_card [data-baseweb="input"],
+  .st-key-judge_card [data-baseweb="input"] > div {
+    background: #f7faf9 !important;
+    border-color: #c8dad4 !important;
+    border-radius: 10px;
+  }
+
+  .st-key-judge_card [data-baseweb="input"]:focus-within {
+    outline: 2px solid #13786b;
+    outline-offset: 2px;
+  }
+
+  .st-key-judge_card input {
+    background: #f7faf9 !important;
+    color: #173e3a !important;
+    -webkit-text-fill-color: #173e3a !important;
+    caret-color: #173e3a;
+  }
+
+  .st-key-judge_card [data-baseweb="input"] button {
+    background: #f7faf9 !important;
+    color: #42645b !important;
+  }
+
+  .st-key-judge_card [data-testid="stFormSubmitButton"] button {
+    min-height: 44px;
+    background: #08665b !important;
+    color: #ffffff !important;
+    border: 0;
+    border-radius: 10px;
+  }
+
+  .st-key-judge_card [data-testid="stFormSubmitButton"] button:hover {
+    background: #064d45 !important;
+  }
+</style>
     """, unsafe_allow_html=True)
 
     with st.container(key="judge_card", border=True):
